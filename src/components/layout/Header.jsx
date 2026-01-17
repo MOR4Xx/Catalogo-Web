@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -34,7 +33,7 @@ export default function Header() {
             <div className="max-w-7xl mx-auto flex items-center justify-between p-4 text-white container px-6">
                 {/* Logo */}
                 <Link href={"/"}>
-                    <Image className=" h-auto w-40 justify-center" src={logo} alt="logo" />
+                    <Image className=" h-auto w-40 justify-center" src={logo} alt={"logo"} />
                 </Link>
 
                 {/* Barra de Pesquisa */}
@@ -48,24 +47,23 @@ export default function Header() {
                     <ul className="flex items-center gap-7 p-px-5">
 
                         {/* Dropdown */}
-                        <li>
-                            <button
-                                onClick={() => setOpenFilter(prev => !prev)}
-                                className="relative flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors hover:text-dark-text">
-
+                        <li className="flex flex-row items-center">
+                            <Link href={"/produtos"}
+                                className="relative flex items-center py-2 text-sm font-medium transition-colors hover:text-dark-text">
                                 Produtos
-                                <svg
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    className={`size-5 transition-transform ${
-                                        openFilter ? "rotate-180" : ""}`}>
-                                    <path
-                                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </button>
+                            </Link>
+                            <svg
+                                onClick={() => setOpenFilter(prev => !prev)}
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className={`size-5 transition-transform ${
+                                    openFilter ? "rotate-180" : ""}`}>
+                                <path
+                                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
                         </li>
                         <li>
                             <Link href={"/contato"} className={navLinkClasses(pathname === "/contato")}>
@@ -78,7 +76,7 @@ export default function Header() {
                             <Link href={"/carrinho"} className={navLinkClasses(pathname === "/carrinho")}>
                                 <div className="flex flex-row justify-center items-center">
                                     Carrinho
-                                    <Image src={iconCarrinho} alt="carrinho" className="w-5 h-5"/>
+                                    <Image src={iconCarrinho} alt={"carrinho"} className="w-5 h-5"/>
                                 </div>
                             </Link>
                         </li>
