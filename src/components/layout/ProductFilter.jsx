@@ -1,8 +1,25 @@
+'use client';
 import {motion, AnimatePresence } from "framer-motion";
+import { useRouter, useSearchParams} from "next/navigation";
+
 
 export default function ProductFilter({ open }) {
-
     const linkClass = "hover:text-dark-text cursor-pointer hover:underline"
+    const router = useRouter();
+
+
+    const searchParams = useSearchParams();
+
+    function aplicarFiltro(categoria){
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (categoria){
+            params.set("category", categoria);
+        }else {
+            params.delete("category");
+        }
+        router.push(`/produtos?${params.toString()}`);
+    }
 
     return (
         <AnimatePresence>
@@ -18,9 +35,10 @@ export default function ProductFilter({ open }) {
                         <div>
                             <h3 className="font-semibold mb-2">Categoria</h3>
                             <ul className="space-y-2 ">
-                                <li><a className={linkClass}>Medicamentos</a></li>
-                                <li><a className={linkClass}>Cosméticos</a></li>
-                                <li><a className={linkClass}>Beleza</a></li>
+                                <li><a className={linkClass} onClick={() => aplicarFiltro("")}>Todos</a></li>
+                                <li><a className={linkClass} onClick={() => aplicarFiltro("jewelery")}>Medicamentos</a></li>
+                                <li><a className={linkClass} onClick={() => aplicarFiltro("men's clothing")}>Cosméticos</a></li>
+                                <li><a className={linkClass} onClick={() => aplicarFiltro("electronics")}>Beleza</a></li>
                             </ul>
                         </div>
 

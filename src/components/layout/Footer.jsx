@@ -15,39 +15,33 @@ export default function Footer() {
         <div className="flex flex-col bg-status-escuro max-w-7xl mx-auto p-2 rounded-lg gap-4 mt-10">
             <div className={"w-full mx-auto flex flex-row justify-between p-4 gap-10 bg-white pt-6 rounded-lg"}>
                 <div>
-                    <h3 className="font-semibold mb-2 cursor-default">Categoria</h3>
+                    <h3 className="font-semibold mb-2 cursor-default">Atendimento</h3>
                     <ul className="space-y-2 ">
-                        <li><a className={linkClass}>Medicamentos</a></li>
-                        <li><a className={linkClass}>Cosméticos</a></li>
-                        <li><a className={linkClass}>Beleza</a></li>
+                        <li><a className={linkClass}>Endereço</a></li>
+                        <li><a className={linkClass}>Horário</a></li>
+                        <li><a className={linkClass}>WhatsApp</a></li>
+                        <li><a className={linkClass}>Telefone</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 className="font-semibold mb-2 cursor-default">Preço</h3>
+                    <h3 className="font-semibold mb-2 cursor-default">Serviços</h3>
                     <ul className="space-y-2">
-                        <li><a className={linkClass}>Até R$50</a></li>
-                        <li><a className={linkClass}>R$50 - R$100</a></li>
-                        <li><a className={linkClass}>+ R$100</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="font-semibold mb-2 cursor-default">Marca</h3>
-                    <ul className="space-y-2">
-                        <li><a className={linkClass}>Marca A</a></li>
-                        <li><a className={linkClass}>Marca B</a></li>
-                        <li><a className={linkClass}>Marca C</a></li>
-                        <li><a className={linkClass}>Marca D</a></li>
-                        <li><a className={linkClass}>Marca E</a></li>
+                        <li>Pressão arterial</li>
+                        <li>Glicemia</li>
+                        <li>Injetáveis</li>
+                        <li>Remédios manipulados</li>
+                        <li>Entrega a domicilio</li>
                     </ul>
                 </div>
                 <div>
                     <h3 className="font-semibold mb-2 cursor-default">Institucional</h3>
                     <ul className="space-y-2">
                         <li><a className={linkClass}>Home</a></li>
-                        <li><a className={linkClass}>Sobre nós</a></li>
-                        <li><a className={linkClass}>Contato</a></li>
+                        <li><a className={linkClass}>Sobre a Farmácia</a></li>
+                        <li><a className={linkClass}>Política de Privacidade</a></li>
+                        <li><a className={linkClass}>Termos de Uso</a></li>
                         <li><a className={linkClass}>FAQ</a></li>
-                        <li><a className={linkClass}>Carrinho</a></li>
+                        <li><a className={linkClass}>Contato</a></li>
                     </ul>
                 </div>
                 <div>
@@ -86,8 +80,13 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div>
+            <div className={"flex flex-row justify-between"}>
                 <Image src={Logo} alt={"Velika"} className="w-40 h-auto"/>
+
+                <div className="flex flex-col text-[10px] leading-tight text-gray-600">
+                    <p>© 2026 Farmácia Velika. Todos os direitos reservados.</p>
+                    <p>CNPJ: XX.XXX.XXX/0001-XX</p>
+                </div>
             </div>
         </div>
     );
