@@ -1,12 +1,19 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
+import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 
-export function middleware(request) {
-    const authCookie = request.cookies.get("auth");
+export async function middleware(req) {
+    const token = await getToken({
+        req,
+        secret: process.env.NEXTAUTH_SECRET,
+    });
 
-    const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+    const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
 
-    if (isAdminRoute && !authCookie) {
-        return NextResponse.redirect(new URL("/auth/login", request.url));
+    if (isAdminRoute && !token) {
+        return NextResponse.redirect(
+            new URL("/auth/login", req.url)
+        );
     }
 
     return NextResponse.next();

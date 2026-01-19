@@ -35,7 +35,7 @@ export default async function Produtos({searchParams}) {
     });
 
     return (
-        <div className={"max-w-7xl min-h-screen mx-auto flex flex-col bg-white pt-6 pb-10 px-8 gap-6 mb-6"}>
+        <div className={"max-w-7xl min-h-screen mx-auto flex flex-col bg-white pt-6 pb-2 px-8 gap-6 mb-6"}>
             <h1>{query && (
                 <span className="ml-2">
                         | Busca por: <strong>{params.q}</strong>
