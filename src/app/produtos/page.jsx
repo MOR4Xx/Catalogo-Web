@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import CardProduto from "@/components/ui/CardProduto";
+import CardProduct from "@/components/ui/CardProduct";
 
 async function getProdutos() {
     const res = await fetch("https://fakestoreapi.com/products", {
@@ -50,7 +50,7 @@ export default async function Produtos({searchParams}) {
 
             <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-10">
                 {produtosFiltrados.map((produto) => (
-                    <CardProduto
+                    <CardProduct
                         key={produto.id}
                         produto={{
                             id: String(produto.id),

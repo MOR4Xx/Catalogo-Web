@@ -5,7 +5,7 @@ import ImageLoading from "@/components/layout/ImageLoading";
  * @param {{ produto: Produto }} props
  */
 
-export default function CardProduto({ produto }) {
+export default function CardProduct({ produto }) {
     return (
         <div className="flex flex-col bg-status-escuro border border-black/20 hover:border-black p-4 gap-4 rounded-lg shadow-md h-full">
 
