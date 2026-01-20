@@ -1,67 +1,81 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import {useState} from "react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Logo from "@/public/images/LogoVelikaPreta.png"
+import Logo from "@/public/images/LogoVelikaPreta.png";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+const formSchema = z.object({
+    email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
+    password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
+});
 
 export default function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
     const router = useRouter();
 
-    const [password, setPassword] = useState("");
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
-    async function handleSubmit(e) {
-        e.preventDefault();
+    const { register, handleSubmit, formState } = form;
+    const { errors, isSubmitting } = formState;
 
-        await signIn("credentials", {
-            email,
-            password,
-            callbackUrl: "/admin/produtos",
+    async function onSubmit(values) {
+        const res = await signIn("credentials", {
+            email: values.email,
+            password: values.password,
+            redirect: false,
         });
-    }
 
-    function handleLogin(e) {
-        e.preventDefault();
-
-        // 🔐 EXEMPLO SIMPLES (mock)
-        if (email === "admin@admin.com" && senha === "123456") {
-            document.cookie = "auth=true; path=/";
-            router.push("/admin/produtos");
-        } else {
-            alert("Credenciais inválidas");
+        if (res?.ok) {
+            router.push("/admin/dashboard");
         }
     }
 
     return (
-        <div className="min-h-150 flex flex-col items-center justify-center bg-white gap-3">
-            <div className="w-50 ">
-                <Image src={Logo} alt={"logo"}/>
-            </div>
+        <div className="min-h-100 flex flex-col items-center justify-center bg-white gap-4">
+            <Image src={Logo} alt="Logo" width={200} />
+
             <form
-                onSubmit={handleLogin}
+                onSubmit={handleSubmit(onSubmit)}
                 className="bg-status-escuro p-6 rounded-lg shadow-md w-80"
             >
-                <h1 className="text-xl font-semibold mb-4">Login</h1>
+                <h1 className="text-xl font-semibold mb-4 text-primary">Login</h1>
 
                 <input
+                    {...register("email")}
                     type="email"
                     placeholder="Email"
-                    className="w-full border p-2 mb-3 rounded-lg"
-                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full border p-2 mb-2 rounded-lg"
                 />
+                {errors.email && (
+                    <p className="text-red-400 text-sm">{errors.email.message}</p>
+                )}
 
                 <input
+                    {...register("password")}
                     type="password"
                     placeholder="Senha"
-                    className="w-full border p-2 mb-4 rounded-lg"
-                    onChange={(e) => setSenha(e.target.value)}
+                    className="w-full border p-2 mt-2 mb-2 rounded-lg"
                 />
+                {errors.password && (
+                    <p className="text-red-400 text-sm">{errors.password.message}</p>
+                )}
 
-                <button className="w-full bg-primary text-white p-2 rounded">
-                    Entrar
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-primary text-white p-2 rounded mt-4"
+                >
+                    {isSubmitting ? "Entrando..." : "Entrar"}
                 </button>
             </form>
         </div>

@@ -23,7 +23,7 @@ export default function CardProduto({ produto }) {
         </span>
             </div>
 
-            <Button classNames="bg-status-success hover:bg-status-success/80 text-white w-full">
+            <Button className="bg-status-success hover:bg-status-success/80 text-white w-full">
                 Adicionar ao Carrinho
             </Button>
         </div>
