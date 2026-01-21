@@ -3,23 +3,27 @@
 import Button from "@/components/ui/Button";
 
 export default function CreateProductModal({onClose}) {
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         const formData = new FormData(e.target);
 
-        const product = {
-            title: formData.get("title"),
-            price: formData.get("price"),
-            category: formData.get("category"),
-            description: formData.get("description"),
-            image: formData.get("image"), // File
-        };
+        try {
+            const res = await fetch("/api/products", {
+                method: "POST",
+                body: formData,
+            });
 
+            if (!res.ok) {
+                const error = await res.json();
+                throw new Error(error.error || "Erro ao cadastrar produto");
+            }
 
-
-        console.log(product);
-
-        onClose();
+            onClose();
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        }
     };
 
     return (
@@ -46,6 +50,7 @@ export default function CreateProductModal({onClose}) {
                     <input
                         name="price"
                         type="number"
+                        step="0.01"
                         placeholder="Preço"
                         className="border rounded-xl p-2 pb-3"
                         required
@@ -66,16 +71,16 @@ export default function CreateProductModal({onClose}) {
                         className="border rounded-xl p-2 pb-3"
                     />
 
-                    <div className="flex flex-col gap-1">
-                        <label className="text-sm">Imagem do produto</label>
-                        <input
-                            type="file"
-                            name="image"
-                            accept="image/*"
-                            className="border rounded p-2"
-                            required
-                        />
-                    </div>
+                    {/*<div className="flex flex-col gap-1">*/}
+                    {/*    <label className="text-sm">Imagem do produto</label>*/}
+                    {/*    <input*/}
+                    {/*        type="file"*/}
+                    {/*        name="image"*/}
+                    {/*        accept="image/*"*/}
+                    {/*        className="border rounded p-2"*/}
+                    {/*        required*/}
+                    {/*    />*/}
+                    {/*</div>*/}
 
                     <div className="flex justify-end gap-2 pt-2">
                         <Button
