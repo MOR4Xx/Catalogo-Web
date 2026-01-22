@@ -14,15 +14,18 @@ export default function CreateProductModal({onClose}) {
                 body: formData,
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
-                const error = await res.json();
-                throw new Error(error.error || "Erro ao cadastrar produto");
+                alert(data.error);
+                return;
             }
 
+            alert(data.message);
             onClose();
         } catch (error) {
+            alert("Erro inesperado");
             console.error(error);
-            alert(error.message);
         }
     };
 

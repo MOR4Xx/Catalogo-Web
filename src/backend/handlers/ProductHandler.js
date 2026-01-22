@@ -1,24 +1,19 @@
 import ProductRepository from "@/backend/repositories/ProductRepository";
-import Product from "@/backend/models/Produto";
 
 export default class ProductHandler {
     constructor() {
-        this.productRepository = new ProductRepository();
+        this.repository = new ProductRepository();
     }
 
-    async createProduct(product) {
-        console.log("Chegou no Handler");
-        // garante domínio
-        if (!(product instanceof Product)) {
-            throw new Error("Produto inválido");
+    async createProduct(data) {
+        if (!data.name || !data.price || !data.category) {
+            throw new Error("Dados obrigatórios não preenchidos");
         }
 
-        // regra de negócio (exemplo)
-        if (product.price < 1) {
-            throw new Error("Preço mínimo inválido");
+        if (data.price <= 0) {
+            throw new Error("Preço inválido");
         }
 
-        console.log("Passou para o repository");
-        return this.productRepository.create(product);
+        return this.repository.create(data);
     }
 }

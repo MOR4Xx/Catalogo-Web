@@ -1,5 +1,5 @@
-import { getServerAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import {getServerAuthSession} from "@/lib/auth";
 import DashboardAdminClient from "@/components/layout/DashboardAdminClient";
 
 export default async function DashboardAdmin() {
