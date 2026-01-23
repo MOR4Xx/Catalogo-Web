@@ -66,3 +66,23 @@ export async function GET() {
         );
     }
 }
+
+export async function DELETE(request, {params}) {
+    try {
+        const session = await getServerAuthSession(request);
+        if (!session) {
+            return NextResponse.json(
+                { error: "Não autorizado" },
+                { status: 401 }
+            )
+        }
+
+        const handler = new ProductHandler();
+        await handler.delete(params);
+
+        return NextResponse.json({ success: true });
+
+    }catch(error) {
+        console.log(error);
+    }
+}

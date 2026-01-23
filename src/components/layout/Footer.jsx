@@ -12,7 +12,7 @@ export default function Footer() {
     const linkClass = "hover:text-primary cursor-pointer hover:underline"
 
     return (
-        <div className="flex flex-col bg-status-escuro max-w-7xl mx-auto mb-2 p-2 rounded-lg gap-4 mt-10">
+        <div className="flex flex-col bg-status-escuro max-w-7xl mx-auto mb-2 p-2 rounded-lg gap-4 mt-10 shadow-lg">
             <div className={"w-full mx-auto flex flex-row justify-between p-4 gap-10 bg-white pt-6 rounded-lg"}>
                 <div>
                     <h3 className="font-semibold mb-2 cursor-default">Atendimento</h3>

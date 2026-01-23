@@ -20,4 +20,10 @@ export default class ProductRepository {
             },
         });
     }
+
+    async delete(id) {
+        await prisma.product.delete({
+            where: { id },
+        });
+    }
 }

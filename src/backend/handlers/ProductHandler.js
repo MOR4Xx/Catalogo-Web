@@ -7,13 +7,20 @@ export default class ProductHandler {
 
     async createProduct(data) {
 
-
-
         return this.repository.create(data);
     }
 
     async findAll() {
 
         return this.repository.findAll();
+    }
+
+    async editProduct(id , data) {
+        return this.repository.update(id, data);
+    }
+
+    async deleteProduct(id) {
+
+        return this.repository.delete(id);
     }
 }
