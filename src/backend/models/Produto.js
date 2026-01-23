@@ -1,17 +1,17 @@
 export default class Product {
-    constructor({id, title, price, category, description, image}) {
+    constructor({id, name, price, category, description, url_image}) {
         this.id = id;
-        this.title = title;
+        this.name = name;
         this.price = price;
         this.category = category;
-        this.description = description ?? null;
-        this.image = image ?? null;
+        this.description = description;
+        this.url_image = url_image;
 
         this.validate();
     }
 
     validate() {
-        if (!this.title || this.title.length < 3) {
+        if (!this.name || this.name.length < 3) {
             throw new Error("Nome do produto inválido");
         }
 

@@ -2,7 +2,7 @@
 
 import Button from "@/components/ui/Button";
 
-export default function CreateProductModal({onClose}) {
+export default function CreateProductModal({onClose, onSuccess}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -21,7 +21,7 @@ export default function CreateProductModal({onClose}) {
                 return;
             }
 
-            alert(data.message);
+            await onSuccess();
             onClose();
         } catch (error) {
             alert("Erro inesperado");
@@ -43,7 +43,7 @@ export default function CreateProductModal({onClose}) {
 
                     <label>Nome</label>
                     <input
-                        name="title"
+                        name="name"
                         placeholder="Nome do produto"
                         className="border rounded-xl p-2 pb-3"
                         required

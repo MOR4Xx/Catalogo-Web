@@ -4,9 +4,13 @@ import { NextResponse } from "next/server";
 import ProductHandler from "@/backend/handlers/ProductHandler";
 import Product from "@/backend/models/Produto";
 
+/**
+ * CRIAR PRODUTO
+ */
 export async function POST(req) {
     try {
         const session = await getServerAuthSession();
+
         if (!session) {
             return NextResponse.json(
                 { error: "Não autorizado" },
@@ -16,30 +20,49 @@ export async function POST(req) {
 
         const formData = await req.formData();
 
-        const imageUrl = null;
-
         const dto = {
-            title: formData.get("title"),
+            name: formData.get("name"),
             price: Number(formData.get("price")),
             category: formData.get("category"),
             description: formData.get("description"),
-            image: imageUrl
-        }
+            url_image: "aa",
+        };
 
         const product = new Product(dto);
-
         const handler = new ProductHandler();
 
         await handler.createProduct(product);
 
-        return NextResponse.json({ success: true }, { status: 201 });
-
+        return NextResponse.json(
+            { success: true },
+            { status: 201 }
+        );
     } catch (error) {
         console.error(error);
 
         return NextResponse.json(
             { error: error.message ?? "Erro interno" },
             { status: 400 }
+        );
+    }
+}
+
+/**
+ * LISTAR PRODUTOS
+ */
+export async function GET() {
+    try {
+        const handler = new ProductHandler();
+
+        const produtos = await handler.findAll();
+
+        return NextResponse.json(produtos, { status: 200 });
+    } catch (error) {
+        console.error(error);
+
+        return NextResponse.json(
+            { message: "Erro ao buscar produtos" },
+            { status: 500 }
         );
     }
 }
