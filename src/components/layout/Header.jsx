@@ -83,7 +83,7 @@ export default function Header() {
                     </ul>
                 </nav>
             </div>
-            <ProductFilter open={openFilter}/>
+            <ProductFilter  open={openFilter} onClose={() => setOpenFilter(false)}/>
         </header>
     );
 }

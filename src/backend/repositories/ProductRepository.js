@@ -16,7 +16,7 @@ export default class ProductRepository {
     async findAll() {
         return prisma.Product.findMany({
             orderBy: {
-                id: "desc",
+                name: 'asc',
             },
         });
     }
@@ -36,6 +36,30 @@ export default class ProductRepository {
     async delete(id) {
         await prisma.product.delete({
             where: { id },
+        });
+    }
+
+    async searchProduct(search) {
+        return prisma.product.findMany({
+            where: {
+                OR: [
+                    {
+                        name: {
+                            contains: search,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        category: {
+                            contains: search,
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            },
+            orderBy: {
+                name: 'asc',
+            },
         });
     }
 }

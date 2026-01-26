@@ -6,6 +6,10 @@ import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import ProductDelete from "./ProductDelete.jsx";
 import ProductEdit from "./ProductEdit.jsx";
+import Image from "next/image";
+import imageTeste from "@/public/images/LogoVelikaPreta.png";
+import SearchIcon from "@/public/icons/searchBlack.svg";
+
 
 export default function ProductDashboard() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -16,6 +20,8 @@ export default function ProductDashboard() {
     const [produtos, setProdutos] = useState([]);
     const [productToDelete, setProductToDelete] = useState(null);
     const [productEdit, setProductEdit] = useState(null);
+
+    const [text, setText] = useState("");
 
     const [loading, setLoading] = useState(true);
 
@@ -43,7 +49,7 @@ export default function ProductDashboard() {
         try {
             const response = await fetch(
                 `/api/products/${productToDelete}`,
-                { method: "DELETE" }
+                {method: "DELETE"}
             );
 
             if (!response.ok) {
@@ -59,6 +65,35 @@ export default function ProductDashboard() {
         }
     };
 
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        if (!text.trim()) {
+            getProdutos();
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const response = await fetch(
+                `/api/products?search=${encodeURIComponent(text)}`
+            );
+
+            if (!response.ok) {
+                throw new Error("Erro na busca");
+            }
+
+            const data = await response.json();
+            setProdutos(data);
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao buscar produtos");
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     useEffect(() => {
         getProdutos();
@@ -67,11 +102,27 @@ export default function ProductDashboard() {
 
     return (
         <>
-            {/* CONTEÚDO PRINCIPAL */}
-            <div className="flex-1 p-6 h-full">
-                <div className="">
-                    <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex-1 p-6 h-ful gap-2">
+                <div className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center p-4">
                         <h2 className="text-xl font-semibold">Produtos</h2>
+
+                        <form
+                            onSubmit={handleSubmit}
+                            className={"flex items-center rounded-md pl-3 outline-2 -outline-offset-1 outline-transparent has-[input:focus-within]:outline-2 bg-status-escuro " +
+                            "has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-black"}>
+                            <div className="flex items-center">
+                                <Image className="w-3 h-3 text-black" src={SearchIcon} alt={"Busca"}/>
+                            </div>
+                            <input
+                                type="text"
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
+                                placeholder={"Buscar produtos..."}
+                                className="w-full rounded-lg px-4 py-2 text-gray-500 outline-none "
+                            />
+                        </form>
+
                         <Button
                             onClick={() => setIsCreateOpen(true)}
                             className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-hover"
@@ -82,60 +133,47 @@ export default function ProductDashboard() {
 
                     {loading ? (
                         <p className="p-4">Carregando produtos...</p>
+                    ) : produtos.length === 0 ? (
+                        <div className="flex items-center justify-center p-4 rounded-lg">
+                            <p className="text-xl font-semibold">
+                                Nenhum produto cadastrado
+                            </p>
+                        </div>
                     ) : (
-                        <table className="w-full text-left">
-                            <thead className="bg-gray-100">
-                            <tr>
-                                <th className="p-3">ID</th>
-                                <th className="p-3">Nome</th>
-                                <th className="p-3">Preço</th>
-                                <th className="p-3">Categoria</th>
-                                <th className="p-3">Ações</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {produtos.length === 0 ? (
-                                <tr>
-                                    <td colSpan="4" className="p-4 text-center">
-                                        Nenhum produto cadastrado
-                                    </td>
-                                </tr>
-                            ) : (
-                                produtos.map((produto) => (
-                                    <tr
-                                        key={produto.id}
-                                        className="border-b hover:bg-gray-50"
-                                    >
-                                        <td className="p-3">{produto.id}</td>
-                                        <td className="p-3">{produto.name}</td>
-                                        <td className="p-3">
-                                            R$ {Number(produto.price).toFixed(2)}
-                                        </td>
-                                        <td className="p-3">{produto.category}</td>
-                                        <td className="p-3 flex gap-2">
-                                            <Button
-                                                className="px-3 py-1 text-sm bg-status-pending/80 text-white hover:bg-status-pending"
-                                                onClick={() => {
-                                                    setProductEdit(produto);
-                                                    setIsEditOpen(true)
-                                                }}
-                                            >
-                                                Editar
-                                            </Button>
-                                            <Button
-                                                className="px-3 py-1 text-sm bg-status-danger text-white hover:bg-status-danger-hover"
-                                                onClick={() => {
-                                                    setProductToDelete(produto.id);
-                                                    setIsDeleteOpen(true);
-                                                }}>
-                                                Excluir
-                                            </Button>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                            </tbody>
-                        </table>
+                        produtos.map((produto) => (
+                            <div
+                                key={produto.id}
+                                className="flex items-center gap-4 p-4 shadow-sm bg-status-escuro rounded-lg hover:bg-status-escuro/60">
+                                <Image src={imageTeste} alt={produto.name} width={100} height={100}/>
+
+                                <div className="flex flex-col gap-2 justify-center items-start flex-1">
+                                    <p className="font-semibold">Nome: {produto.name}</p>
+                                    <p>Preço: R${Number(produto.price).toFixed(2)}</p>
+                                    <p>Categoria: {produto.category}</p>
+                                    <p className="text-sm text-gray-500 text-center">
+                                        {produto.description}
+                                    </p>
+                                </div>
+                                <div className="flex flex-col gap-2 ">
+                                    <Button
+                                        className="px-3 py-1 text-sm bg-status-pending/80 text-white hover:bg-status-pending"
+                                        onClick={() => {
+                                            setProductEdit(produto);
+                                            setIsEditOpen(true)
+                                        }}>
+                                        Editar
+                                    </Button>
+                                    <Button
+                                        className="px-3 py-1 text-sm bg-status-danger text-white hover:bg-status-danger-hover"
+                                        onClick={() => {
+                                            setProductToDelete(produto.id);
+                                            setIsDeleteOpen(true);
+                                        }}>
+                                        Excluir
+                                    </Button>
+                                </div>
+                            </div>
+                        ))
                     )}
                 </div>
             </div>
@@ -153,7 +191,7 @@ export default function ProductDashboard() {
             {isDeleteOpen && (
                 <ProductDelete
                     onClose={() => setIsDeleteOpen(false)}
-                    onConfirmed={()=>{
+                    onConfirmed={() => {
                         deleteProduct();
                         getProdutos();
                     }}
@@ -162,13 +200,14 @@ export default function ProductDashboard() {
 
             {isEditOpen && (
                 <ProductEdit onClose={() => setIsEditOpen(false)}
-                             onSuccess={()=> getProdutos()}
+                             onSuccess={() => getProdutos()}
                              data={productEdit}
                 />
             )}
 
             {showNotificacao && (
-                <Modal title="Produto Cadastrado" onClose={() => setShowNotificacao(false)} className={"flex flex-col justify-end"}>
+                <Modal title="Produto Cadastrado" onClose={() => setShowNotificacao(false)}
+                       className={"flex flex-col justify-end"}>
                     <Button className="bg-status-success text-white" onClick={() => setShowNotificacao(false)}>
                         Continuar
                     </Button>

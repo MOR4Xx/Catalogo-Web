@@ -2,7 +2,6 @@ import { getServerAuthSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 import ProductHandler from "@/backend/handlers/ProductHandler";
-import Product from "@/backend/models/Produto";
 
 /**
  * CRIAR PRODUTO
@@ -20,18 +19,8 @@ export async function POST(req) {
 
         const formData = await req.formData();
 
-        const dto = {
-            name: formData.get("name"),
-            price: Number(formData.get("price")),
-            category: formData.get("category"),
-            description: formData.get("description"),
-            url_image: "aa",
-        };
-
-        const product = new Product(dto);
         const handler = new ProductHandler();
-
-        await handler.createProduct(product);
+        await handler.createProduct(formData);
 
         return NextResponse.json(
             { success: true },
@@ -50,16 +39,25 @@ export async function POST(req) {
 /**
  * LISTAR PRODUTOS
  */
-export async function GET() {
+export async function GET(request) {
     try {
+        const session = await getServerAuthSession();
+        if (!session) {
+            return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+        }
+
+        const { searchParams } = new URL(request.url);
+        const search = searchParams.get("search");
+
         const handler = new ProductHandler();
 
-        const produtos = await handler.findAll();
+        const produtos = search
+            ? await handler.search(search)
+            : await handler.findAll();
 
         return NextResponse.json(produtos, { status: 200 });
     } catch (error) {
         console.error(error);
-
         return NextResponse.json(
             { message: "Erro ao buscar produtos" },
             { status: 500 }
