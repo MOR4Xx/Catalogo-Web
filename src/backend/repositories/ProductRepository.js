@@ -21,6 +21,18 @@ export default class ProductRepository {
         });
     }
 
+    async editProduct(id, data) {
+        await prisma.Product.update({
+            where: {id: id},
+            data: {
+                name: data.name,
+                price: data.price,
+                category: data.category,
+                description: data.description,
+            }
+        });
+    }
+
     async delete(id) {
         await prisma.product.delete({
             where: { id },

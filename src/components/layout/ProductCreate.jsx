@@ -2,6 +2,7 @@
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
+import InputImage from "../ui/InputImage.jsx";
 
 export default function ProductCreate({onClose, onSuccess}) {
     const handleSubmit = async (e) => {
@@ -71,16 +72,16 @@ export default function ProductCreate({onClose, onSuccess}) {
                     className="border rounded-xl p-2 pb-3"
                 />
 
-                {/*<div className="flex flex-col gap-1">*/}
-                {/*    <label className="text-sm">Imagem do produto</label>*/}
-                {/*    <input*/}
-                {/*        type="file"*/}
-                {/*        name="image"*/}
-                {/*        accept="image/*"*/}
-                {/*        className="border rounded p-2"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <div className="flex flex-col gap-1">
+                    <label className="text-sm">Imagem do produto</label>
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        className="border rounded p-2"
+                        required
+                    />
+                </div>
 
                 <div className="flex justify-end gap-2 pt-2">
                     <Button onClick={onClose} className="px-4 py-2 border hover:bg-status-danger-hover bg-status-danger text-white">

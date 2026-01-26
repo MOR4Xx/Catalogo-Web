@@ -24,6 +24,7 @@
     "pg": "^8.17.2",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-dropzone": "^14.3.8",
     "zod": "^4.3.5"
   },
   "devDependencies": {

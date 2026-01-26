@@ -27,7 +27,7 @@ export async function DELETE(request, {params}) {
     }
 }
 
-async function PUT(request, {params}) {
+export async function PUT(request, {params}) {
     try {
         const session = await getServerAuthSession();
         if (!session) {
@@ -38,19 +38,24 @@ async function PUT(request, {params}) {
         }
 
         const {id} = await params;
-        const formData = await request.formData;
+        const formData = await request.json();
 
         const dto = {
-            name: formData.get("name"),
-            price: Number(formData.get("price")),
-            category: formData.get("category"),
-            description: formData.get("description"),
+            name: formData.name,
+            price: Number(formData.price),
+            category: formData.category,
+            description: formData.description,
             url_image: "",
         }
 
         const handler = new ProductHandler();
 
-        return handler.editProduct(Number(id), dto);
+        handler.editProduct(Number(id), dto);
+
+        return NextResponse.json(
+            { success: true },
+            { status: 200 }
+        );
 
     } catch (error) {
         console.error(error);

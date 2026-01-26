@@ -2,10 +2,11 @@
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function ProductEdit({onClose, onSuccess, data}) {
     const [id, setId] = useState(data.id);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +21,7 @@ export default function ProductEdit({onClose, onSuccess, data}) {
         };
 
         try {
-            const res = await fetch(`/api/products/${data.id}`, {
+            const res = await fetch(`/api/products/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,6 +38,7 @@ export default function ProductEdit({onClose, onSuccess, data}) {
 
             await onSuccess();
             onClose();
+
         } catch (error) {
             console.error(error);
             alert("Erro inesperado");

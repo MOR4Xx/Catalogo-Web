@@ -16,8 +16,10 @@ export default class ProductHandler {
     }
 
     async editProduct(id , data) {
-        return this.repository.update(id, data);
+
+        return this.repository.editProduct(id, data);
     }
+
 
     async deleteProduct(id) {
 

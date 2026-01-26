@@ -1,14 +1,13 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import ButtonLogout from "@/components/ui/ButtonLogout";
 import CreateProductModal from "@/components/layout/ProductCreate";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import ProductDelete from "./ProductDelete.jsx";
 import ProductEdit from "./ProductEdit.jsx";
 
-export default function DashboardAdminClient() {
+export default function ProductDashboard() {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -65,26 +64,11 @@ export default function DashboardAdminClient() {
         getProdutos();
     }, []);
 
-    const liClass =
-        "text-black w-full p-4 pl-2 cursor-pointer hover:bg-status-escuro flex items-center justify-center rounded-2xl shadow-md";
 
     return (
-        <div className="flex min-h-screen">
-            {/* MENU LATERAL */}
-            <aside className="w-64 p-4 flex flex-col justify-between gap-6">
-                <div className="flex flex-col items-center gap-2">
-                    <h1 className="font-bold text-2xl">Dashboard</h1>
-                    <ul className="flex flex-col w-full items-center gap-2">
-                        <li className={liClass}>Produtos</li>
-                        <li className={liClass}>Usuários</li>
-                        <li className={"w-full"}><ButtonLogout
-                            className="w-full bg-status-danger hover:bg-status-danger-hover text-white"/></li>
-                    </ul>
-                </div>
-            </aside>
-
+        <>
             {/* CONTEÚDO PRINCIPAL */}
-            <main className="flex-1 p-6 bg-white shadow-2xl rounded-2xl">
+            <div className="flex-1 p-6 h-full">
                 <div className="">
                     <div className="flex justify-between items-center p-4 border-b">
                         <h2 className="text-xl font-semibold">Produtos</h2>
@@ -154,7 +138,7 @@ export default function DashboardAdminClient() {
                         </table>
                     )}
                 </div>
-            </main>
+            </div>
 
             {isCreateOpen && (
                 <CreateProductModal
@@ -178,10 +162,8 @@ export default function DashboardAdminClient() {
 
             {isEditOpen && (
                 <ProductEdit onClose={() => setIsEditOpen(false)}
-                onSuccess={() => {
-                    getProdutos();
-                }}
-                data={productEdit}
+                             onSuccess={()=> getProdutos()}
+                             data={productEdit}
                 />
             )}
 
@@ -192,6 +174,6 @@ export default function DashboardAdminClient() {
                     </Button>
                 </Modal>
             )}
-        </div>
+        </>
     );
 }

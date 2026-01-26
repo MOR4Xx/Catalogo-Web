@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import {getServerAuthSession} from "@/lib/auth";
-import DashboardAdminClient from "@/components/layout/DashboardAdminClient";
+import DashboardAdminClient from "@/components/layout/Dashboard";
 
 export default async function DashboardAdmin() {
     const session = await getServerAuthSession();
