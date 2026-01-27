@@ -2,7 +2,6 @@
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import InputImage from "../ui/InputImage.jsx";
 
 export default function ProductCreate({onClose, onSuccess}) {
     const handleSubmit = async (e) => {

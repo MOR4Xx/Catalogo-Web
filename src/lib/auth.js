@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import LoginHandler from "@/backend/handlers/LoginHandler";
+import LoginHandler from "@/backend/services/LoginService";
 import UserRepository from "@/backend/repositories/UserRepository";
 import {getServerSession} from "next-auth";
 

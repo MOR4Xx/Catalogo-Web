@@ -1,4 +1,5 @@
 import {prisma} from "@/lib/prisma";
+import {cloudinary} from "@/lib/cloudinary"
 
 export default class ProductRepository {
     async create(product) {
@@ -62,4 +63,5 @@ export default class ProductRepository {
             },
         });
     }
+
 }

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 
-export default class LoginHandler {
+export default class LoginService {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }

@@ -1,37 +1,33 @@
 import { getServerAuthSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
-import ProductHandler from "@/backend/handlers/ProductHandler";
+import ProductHandler from "@/backend/services/ProductService";
 
 /**
  * CRIAR PRODUTO
  */
 export async function POST(req) {
     try {
-        const session = await getServerAuthSession();
+        const formData = await req.formData();
 
-        if (!session) {
+        const file = formData.get("image");
+
+        if (!file) {
             return NextResponse.json(
-                { error: "Não autorizado" },
-                { status: 401 }
+                { error: "Imagem não enviada" },
+                { status: 400 }
             );
         }
 
-        const formData = await req.formData();
-
         const handler = new ProductHandler();
-        await handler.createProduct(formData);
+        const product = await handler.createProduct(formData);
 
-        return NextResponse.json(
-            { success: true },
-            { status: 201 }
-        );
+        return NextResponse.json(product, { status: 201 });
     } catch (error) {
         console.error(error);
-
         return NextResponse.json(
-            { error: error.message ?? "Erro interno" },
-            { status: 400 }
+            { error: "Erro ao criar produto" },
+            { status: 500 }
         );
     }
 }

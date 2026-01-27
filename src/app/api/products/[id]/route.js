@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {getServerAuthSession} from "@/lib/auth";
-import ProductHandler from "@/backend/handlers/ProductHandler";
+import ProductHandler from "@/backend/services/ProductService";
 
 export async function DELETE(request, {params}) {
     try {
