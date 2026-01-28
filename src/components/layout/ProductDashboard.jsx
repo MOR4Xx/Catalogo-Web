@@ -9,6 +9,7 @@ import ProductEdit from "./ProductEdit.jsx";
 import Image from "next/image";
 import imageTeste from "@/public/images/LogoVelikaPreta.png";
 import SearchIcon from "@/public/icons/searchBlack.svg";
+import ImageLoading from "../ui/ImageLoading.jsx";
 
 
 export default function ProductDashboard() {
@@ -144,7 +145,8 @@ export default function ProductDashboard() {
                             <div
                                 key={produto.id}
                                 className="flex items-center gap-4 p-4 shadow-sm bg-status-escuro rounded-lg hover:bg-status-escuro/60">
-                                <Image src={imageTeste} alt={produto.name} width={100} height={100}/>
+
+                                <Image src={produto.url_image} alt={produto.name} width={120} height={120} className={"rounded-lg"}/>
 
                                 <div className="flex flex-col gap-2 justify-center items-start flex-1">
                                     <p className="font-semibold">Nome: {produto.name}</p>

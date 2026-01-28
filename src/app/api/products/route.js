@@ -10,19 +10,18 @@ export async function POST(req) {
     try {
         const formData = await req.formData();
 
-        const file = formData.get("image");
-
-        if (!file) {
-            return NextResponse.json(
-                { error: "Imagem não enviada" },
-                { status: 400 }
-            );
-        }
-
         const handler = new ProductHandler();
         const product = await handler.createProduct(formData);
 
+        if (!product) {
+            return NextResponse.json(
+                { error: "Produto não foi criado" },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json(product, { status: 201 });
+
     } catch (error) {
         console.error(error);
         return NextResponse.json(

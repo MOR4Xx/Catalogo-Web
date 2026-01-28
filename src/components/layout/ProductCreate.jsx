@@ -2,12 +2,21 @@
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
+import UploadImage from "@/components/ui/UploadImage";
+import {useState} from "react";
+
 
 export default function ProductCreate({onClose, onSuccess}) {
+    const [image, setImage] = useState(null);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
+
+        if (image) {
+            formData.set('image', image);
+        }
 
         try {
             const res = await fetch("/api/products", {
@@ -43,8 +52,7 @@ export default function ProductCreate({onClose, onSuccess}) {
                     name="name"
                     placeholder="Nome do produto"
                     className="border rounded-xl p-2 pb-3"
-                    required
-                />
+                    required/>
 
                 <label>Preço</label>
                 <input
@@ -53,34 +61,25 @@ export default function ProductCreate({onClose, onSuccess}) {
                     step="0.01"
                     placeholder="Preço"
                     className="border rounded-xl p-2 pb-3"
-                    required
-                />
+                    required/>
 
                 <label>Categoria</label>
                 <input
                     name="category"
                     placeholder="Categoria"
                     className="border rounded-xl p-2 pb-3"
-                    required
-                />
+                    required/>
 
                 <label>Description</label>
                 <textarea
                     name="description"
                     placeholder="Descrição"
-                    className="border rounded-xl p-2 pb-3"
-                />
+                    className="border rounded-xl p-2 pb-3"/>
 
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm">Imagem do produto</label>
-                    <input
-                        type="file"
-                        name="image"
-                        accept="image/*"
-                        className="border rounded p-2"
-                        required
-                    />
+                    <UploadImage onUploadImage={setImage}/>
                 </div>
+
 
                 <div className="flex justify-end gap-2 pt-2">
                     <Button onClick={onClose} className="px-4 py-2 border hover:bg-status-danger-hover bg-status-danger text-white">

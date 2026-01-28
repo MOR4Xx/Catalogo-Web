@@ -27,14 +27,14 @@ export default function Dashboard() {
                             Usuários
                         </li>
 
-                        <li className="w-full">
+                        <li className="w-full shadow-md">
                             <ButtonLogout className="w-full bg-status-danger hover:bg-status-danger-hover text-white" />
                         </li>
                     </ul>
                 </div>
             </aside>
 
-            <main className="flex-1 p-6 bg-white shadow-2xl rounded-2xl">
+            <main className="flex-1 p-6 bg-white shadow-lg rounded-2xl">
                 {view === "produtos" && <ProductDashboard />}
                 {view === "usuarios" && <UsuarioDashboard />}
             </main>

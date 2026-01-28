@@ -3,9 +3,11 @@
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import {useEffect, useState} from "react";
+import UploadImage from "../ui/UploadImage.jsx";
 
 export default function ProductEdit({onClose, onSuccess, data}) {
     const [id, setId] = useState(data.id);
+    const [image, setImage] = useState(null);
 
 
     const handleSubmit = async (e) => {
@@ -13,11 +15,16 @@ export default function ProductEdit({onClose, onSuccess, data}) {
 
         const formData = new FormData(e.target);
 
+        if (image) {
+            formData.set('image', image);
+        }
+
         const payload = {
             name: formData.get("name"),
             price: Number(formData.get("price")),
             category: formData.get("category"),
             description: formData.get("description"),
+            image: formData.get("image"),
         };
 
         try {
@@ -88,16 +95,9 @@ export default function ProductEdit({onClose, onSuccess, data}) {
                     className="border rounded-xl p-2 pb-3"
                 />
 
-                {/*<div className="flex flex-col gap-1">*/}
-                {/*    <label className="text-sm">Imagem do produto</label>*/}
-                {/*    <input*/}
-                {/*        type="file"*/}
-                {/*        name="image"*/}
-                {/*        accept="image/*"*/}
-                {/*        className="border rounded p-2"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
+                <div className="flex flex-col gap-1">
+                    <UploadImage onUploadImage={setImage} imageDefault={data.url_image} />
+                </div>
 
                 <div className="flex justify-end gap-2 pt-2">
                     <Button onClick={onClose}
