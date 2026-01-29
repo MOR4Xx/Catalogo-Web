@@ -1,6 +1,7 @@
 import ProductRepository from "@/backend/repositories/ProductRepository";
 import ImageService from "@/backend/services/ImageService";
 import Product from "@/backend/models/Produto";
+import {NextResponse} from "next/server";
 
 export default class ProductService {
     constructor() {
@@ -12,18 +13,19 @@ export default class ProductService {
 
         const imageFile = formData.get("image");
 
-        let urlImage = null
+        let uploadedImage  = null
 
         if (imageFile) {
-            urlImage = await this.imagesService.upload(imageFile);
+            uploadedImage = await this.imagesService.upload(imageFile);
         }
 
         const dto = {
-            name: formData.get("name"),
-            price: Number(formData.get("price")),
-            category: formData.get("category"),
-            description: formData.get("description"),
-            url_image: urlImage,
+            name: formData.get('name'),
+            price: Number(formData.get('price')),
+            category: formData.get('category'),
+            description: formData.get('description'),
+            url_image: uploadedImage.url,
+            image_public_id: uploadedImage.publicId,
         };
 
         const product = new Product(dto);
@@ -39,6 +41,13 @@ export default class ProductService {
     }
 
     async deleteProduct(id) {
+        const produto = await this.repository.findById(id)
+
+        if (!produto) {
+            throw new NotFoundError(`Produto with id ${id} not found`);
+        }
+
+        await this.imagesService.delete(produto.image_public_id);
 
         return this.repository.delete(id);
     }

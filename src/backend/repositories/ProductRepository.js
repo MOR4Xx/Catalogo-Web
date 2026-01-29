@@ -1,5 +1,4 @@
 import {prisma} from "@/lib/prisma";
-import {cloudinary} from "@/lib/cloudinary"
 
 export default class ProductRepository {
     async create(product) {
@@ -10,6 +9,7 @@ export default class ProductRepository {
                 category: product.category,
                 description: product.description,
                 url_image: product.url_image,
+                image_public_id: product.image_public_id,
             },
         });
     }
@@ -62,6 +62,14 @@ export default class ProductRepository {
                 name: 'asc',
             },
         });
+    }
+
+    async findById(id) {
+        return prisma.product.findUnique({
+            where: {
+                id: id,
+            }
+        })
     }
 
 }

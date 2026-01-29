@@ -6,6 +6,7 @@ export default class Product {
         this.category = category;
         this.description = description;
         this.url_image = url_image;
+        this.image_public_id = id;
 
         this.validate();
     }

@@ -28,4 +28,9 @@ model Product{
   category String
   description String
   url_image String?
+  image_public_id String?
 }
+
+// npx prisma db push
+// npx prisma migrate dev --name add-image-public-id
+// npx prisma generate
