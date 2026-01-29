@@ -4,6 +4,7 @@ import { useState } from "react";
 import ButtonLogout from "@/components/ui/ButtonLogout";
 import ProductDashboard from "./ProductDashboard.jsx";
 import UsuarioDashboard from "./UsuarioDashboard.jsx";
+import CategoriaDashboard from "./CategoriaDashboard.jsx";
 
 export default function Dashboard() {
     const [view, setView] = useState("produtos");
@@ -21,7 +22,10 @@ export default function Dashboard() {
                             onClick={() => setView("produtos")}>
                             Produtos
                         </li>
-
+                        <li className={liClass}
+                            onClick={() => setView("categorias")}>
+                            Categorias
+                        </li>
                         <li className={liClass}
                             onClick={() => setView("usuarios")}>
                             Usuários
@@ -37,6 +41,7 @@ export default function Dashboard() {
             <main className="flex-1 p-6 bg-white shadow-lg rounded-2xl">
                 {view === "produtos" && <ProductDashboard />}
                 {view === "usuarios" && <UsuarioDashboard />}
+                {view === "categorias" && <CategoriaDashboard/>}
             </main>
         </div>
     );
