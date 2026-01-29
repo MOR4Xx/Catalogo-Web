@@ -38,19 +38,10 @@ export async function PUT(request, {params}) {
         }
 
         const {id} = await params;
-        const formData = await request.json();
-
-        const dto = {
-            name: formData.name,
-            price: Number(formData.price),
-            category: formData.category,
-            description: formData.description,
-            url_image: "",
-        }
+        const data = await request.formData();
 
         const handler = new ProductHandler();
-
-        handler.editProduct(Number(id), dto);
+        handler.editProduct(Number(id), data);
 
         return NextResponse.json(
             { success: true },

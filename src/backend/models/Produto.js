@@ -1,12 +1,12 @@
 export default class Product {
-    constructor({id, name, price, category, description, url_image}) {
+    constructor({id, name, price, category, description, url_image, image_public_id}) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
         this.description = description;
         this.url_image = url_image;
-        this.image_public_id = id;
+        this.image_public_id = image_public_id;
 
         this.validate();
     }

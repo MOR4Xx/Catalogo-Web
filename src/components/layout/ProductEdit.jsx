@@ -16,24 +16,16 @@ export default function ProductEdit({onClose, onSuccess, data}) {
         const formData = new FormData(e.target);
 
         if (image) {
-            formData.set('image', image);
+            formData.set("image", image);
+        } else {
+            formData.delete("image");
         }
 
-        const payload = {
-            name: formData.get("name"),
-            price: Number(formData.get("price")),
-            category: formData.get("category"),
-            description: formData.get("description"),
-            image: formData.get("image"),
-        };
 
         try {
             const res = await fetch(`/api/products/${id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
+                body: formData,
             });
 
             const result = await res.json();

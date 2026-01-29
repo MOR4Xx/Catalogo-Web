@@ -36,8 +36,29 @@ export default class ProductService {
         return this.repository.findAll();
     }
 
-    async editProduct(id, data) {
-        return this.repository.editProduct(id, data);
+    async editProduct(id, formData) {
+        const product = await this.repository.findById(id);
+
+        const imageFile = formData.get("image");
+
+        if (imageFile && imageFile instanceof File) {
+
+            if (product.image_public_id) {
+                await this.imagesService.delete(product.image_public_id);
+            }
+
+            const uploadedImage = await this.imagesService.upload(imageFile);
+
+            product.url_image = uploadedImage.url;
+            product.image_public_id = uploadedImage.publicId;
+        }
+
+        product.name = formData.get("name");
+        product.price = Number(formData.get("price"));
+        product.category = formData.get("category");
+        product.description = formData.get("description");
+
+        return this.repository.editProduct(id, product);
     }
 
     async deleteProduct(id) {

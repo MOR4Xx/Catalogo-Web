@@ -201,8 +201,11 @@ export default function ProductDashboard() {
             )}
 
             {isEditOpen && (
-                <ProductEdit onClose={() => setIsEditOpen(false)}
-                             onSuccess={() => getProdutos()}
+                <ProductEdit onClose={() => {
+                    setIsEditOpen(false)
+                    getProdutos();
+                }}
+                             onSuccess={()=> getProdutos()}
                              data={productEdit}
                 />
             )}

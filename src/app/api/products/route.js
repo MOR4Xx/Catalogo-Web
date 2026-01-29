@@ -8,6 +8,11 @@ import ProductHandler from "@/backend/services/ProductService";
  */
 export async function POST(req) {
     try {
+        const session = await getServerAuthSession();
+        if (!session) {
+            return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+        }
+
         const formData = await req.formData();
 
         const handler = new ProductHandler();
@@ -36,11 +41,6 @@ export async function POST(req) {
  */
 export async function GET(request) {
     try {
-        const session = await getServerAuthSession();
-        if (!session) {
-            return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-        }
-
         const { searchParams } = new URL(request.url);
         const search = searchParams.get("search");
 

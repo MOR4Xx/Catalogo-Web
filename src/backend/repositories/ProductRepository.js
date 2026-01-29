@@ -30,6 +30,8 @@ export default class ProductRepository {
                 price: data.price,
                 category: data.category,
                 description: data.description,
+                url_image: data.url_image,
+                image_public_id: data.image_public_id,
             }
         });
     }
